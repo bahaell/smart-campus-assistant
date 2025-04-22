@@ -7,7 +7,7 @@ class YOLOv5Detector:
         """
         Initialize YOLO model for object detection.
         Args:
-            model_path (str): Path to the YOLOv5 model (default: yolov5s.pt).
+            model_path (str): Path to the YOLOv5 model (default: yolov5su.pt).
         """
         self.model = YOLO(model_path)  # Use ultralytics.YOLO
 
