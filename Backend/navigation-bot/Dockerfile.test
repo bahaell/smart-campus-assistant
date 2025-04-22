@@ -1,0 +1,17 @@
+FROM python:3.10-bullseye
+
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir --default-timeout=1000 -r requirements.txt
+
+# Copie tout le projet
+COPY . .
+
+# GÉNÈRE les embeddings et index FAISS à l'intérieur du conteneur
+RUN python embeddings.py
+
+# Commande pour exécuter les tests
+CMD ["pytest"]

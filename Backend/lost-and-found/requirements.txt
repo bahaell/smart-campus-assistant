@@ -12,3 +12,6 @@ numpy==1.26.4
 ultralytics==8.2.0
 sentence-transformers==3.0.1
 python-dotenv==1.0.1
+pytest
+pytest-asyncio
+httpx

@@ -1,0 +1,149 @@
+version: '3.8'
+
+services:
+  # Service MongoDB
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Service pour navigation-bot
+  navigation-bot:
+    build:
+      context: ./backend/navigation-bot
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - CORS_ORIGINS=http://frontend:8080
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Service pour lost-and-found
+  lost-and-found:
+    build:
+      context: ./backend/lost-and-found
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/lost_and_found
+      - CORS_ORIGINS=http://frontend:8080
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - lost_and_found_data:/app/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Service pour le frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - NAVIGATION_BOT_API_URL=http://navigation-bot:8001
+      - LOST_AND_FOUND_API_URL=http://lost-and-found:8002
+    depends_on:
+      - navigation-bot
+      - lost-and-found
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Service pour exécuter les tests du backend (navigation-bot)
+  navigation-bot-test:
+    build:
+      context: ./backend/navigation-bot
+      dockerfile: Dockerfile.test  # Utiliser Dockerfile.test
+    command: pytest
+    environment:
+      - CORS_ORIGINS=http://frontend:8080
+    volumes:
+      - ./backend/navigation-bot:/app
+    depends_on:
+      navigation-bot:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # Service pour exécuter les tests du backend (lost-and-found)
+  lost-and-found-test:
+    build:
+      context: ./backend/lost-and-found
+      dockerfile: Dockerfile.test  # Utiliser Dockerfile.test
+    command: pytest
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/lost_and_found
+      - CORS_ORIGINS=http://frontend:8080
+    volumes:
+      - ./backend/lost-and-found:/app
+    depends_on:
+      lost-and-found:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # Service pour exécuter les tests du frontend
+  frontend-test:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.test
+    command: npm run test:ci
+    environment:
+      - NAVIGATION_BOT_API_URL=http://navigation-bot:8001
+      - LOST_AND_FOUND_API_URL=http://lost-and-found:8002
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      navigation-bot:
+        condition: service_healthy
+      lost-and-found:
+        condition: service_healthy
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  lost_and_found_data:
