@@ -15,6 +15,7 @@ from email_utils import send_match_email, validate_email
 from bson.objectid import ObjectId
 
 app = FastAPI(title="Lost and Found API")
+app.mount("/data", StaticFiles(directory="data"), name="data")
 
 # CORS
 app.add_middleware(
@@ -24,10 +25,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Static files
-app.mount("/data", StaticFiles(directory="data"), name="data")
-
 # MongoDB
 try:
     client = MongoClient("mongodb://mongodb:27017/", serverSelectionTimeoutMS=5000)
@@ -99,7 +96,7 @@ async def upload_item(
             raise HTTPException(status_code=400, detail="Invalid contact email address")
 
     filename = f"{uuid.uuid4()}_{file.filename}"
-    file_path = f"data/{filename}"
+    file_path = f"/data/{filename}"
     print(f"Saving file to {file_path}")
     try:
         os.makedirs('data', exist_ok=True)
@@ -126,7 +123,7 @@ async def upload_item(
         "description": description,
         "location": location,
         "contactInfo": contactInfo,
-        "image_path": image_path,
+        "image_path": image_path , 
         "detections": detections,
         "timestamp": datetime.utcnow().isoformat(),
         "matches": []
