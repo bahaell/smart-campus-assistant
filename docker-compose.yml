@@ -1,0 +1,58 @@
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  navigation-bot:
+    build: ./backend/navigation-bot
+    ports:
+      - "8001:8001"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  lost-and-found:
+    build: ./backend/lost-and-found
+    ports:
+      - "8002:8002"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - lost_and_found_data:/app/data
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    environment:
+      - NAVIGATION_BOT_API_URL=http://navigation-bot:8001
+      - LOST_AND_FOUND_API_URL=http://lost-and-found:8002
+    depends_on:
+      - navigation-bot
+      - lost-and-found
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  lost_and_found_data:
