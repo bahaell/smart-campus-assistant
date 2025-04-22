@@ -21,27 +21,27 @@ app.add_middleware(
 class QueryRequest(BaseModel):
     query: str
 
-# Load FAISS index and FAQ data
-def load_faiss_index(index_path='faiss_index.bin', faq_path='faq_data.pkl'):
-    with open(faq_path, 'rb') as f:
-        faq_data = pickle.load(f)
+# Load FAISS index and location data
+def load_faiss_index(index_path='faiss_index.bin', location_path='location_data.pkl'):
+    with open(location_path, 'rb') as f:
+        location_data = pickle.load(f)
     index = faiss.read_index(index_path)
-    return index, faq_data
+    return index, location_data
 
 # Initialize the model and load the index
 model = SentenceTransformer('all-MiniLM-L6-v2')
-index, faq_data = load_faiss_index()
+index, location_data = load_faiss_index()
 
 @app.post("/ask")
 async def ask_question(request: QueryRequest):
     """
-    Answer a user query by finding the most similar FAQ question.
+    Answer a user query by finding the most similar location using FAISS.
     
     Args:
         request (QueryRequest): The user's query in JSON format.
     
     Returns:
-        dict: The answer and metadata of the matched FAQ item.
+        dict: A Google Maps URL and metadata of the matched location.
     """
     # Generate embedding for the query
     query_embedding = model.encode([request.query], convert_to_numpy=True)
@@ -50,15 +50,21 @@ async def ask_question(request: QueryRequest):
     k = 1  # Number of nearest neighbors to retrieve
     distances, indices = index.search(query_embedding, k)
     
-    # Get the most similar FAQ item
+    # Get the most similar location
     matched_index = indices[0][0]
-    matched_faq = faq_data[matched_index]
+    matched_location = location_data[matched_index]
+    
+    # Generate Google Maps URL
+    lat = matched_location['location']['lat']
+    lng = matched_location['location']['lng']
     
     return {
-        "answer": matched_faq["answer"],
+        "answer": f"L'emplacement '{matched_location['title']}' se trouve ici :",
         "source": {
-            "id": matched_faq["id"],
-            "question": matched_faq["question"],
+            "type": "location",
+            "title": matched_location['title'],
+            "lat": lat,
+            "lng": lng,
             "distance": float(distances[0][0])
         }
     }

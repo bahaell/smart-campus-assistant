@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Entrée principale",
+    "location": {
+      "lat": 36.83385543385891,
+      "lng": 10.147823228591896
+    }
+  },
+  {
+    "title": "Bloc Prepa",
+    "location": {
+      "lat": 36.8344411,
+      "lng": 10.1456052
+    }
+  },
+  {
+    "title": "Bloc TP Chimie",
+    "location": {
+      "lat": 36.8334846,
+      "lng": 10.1444611
+    }
+  },
+  {
+    "title": "Bloc Recherche Chimie",
+    "location": {
+      "lat": 36.8335406,
+      "lng": 10.1436971
+    }
+  },
+  {
+    "title": "Département de l'informatique",
+    "location": {
+      "lat": 36.8353591,
+      "lng": 10.1444015
+    }
+  },
+  {
+    "title": "Amphi P1",
+    "location": {
+      "lat": 36.8344316,
+      "lng": 10.1442125
+    }
+  },
+  {
+    "title": "Amphi A",
+    "location": {
+      "lat": 36.8340492,
+      "lng": 10.1452115
+    }
+  },
+  {
+    "title": "Amphi C",
+    "location": {
+      "lat": 36.8343091,
+      "lng": 10.1448529
+    }
+  },
+  {
+    "title": "Département de Biologie",
+    "location": {
+      "lat": 36.8328946,
+      "lng": 10.1474431
+    }
+  },
+  {
+    "title": "département de mathématiques",
+    "location": {
+      "lat": 36.834392,
+      "lng": 10.1466997
+    }
+  },
+  {
+    "title": "salle de sport",
+    "location": {
+      "lat": 36.8352861286451,
+      "lng": 10.145249287520159
+    }
+  },
+  {
+    "title": "moussala",
+    "location": {
+      "lat": 36.83446041348908,
+      "lng": 10.144803108689906
+    }
+  }
+]
