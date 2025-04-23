@@ -102,7 +102,7 @@ jobs:
         uses: azure/aci-deploy@v1
         with:
           resource-group: smart-campus-rg
-          dns-name-label: smart-campus-frontend-${{ github.sha.substr(0, 8) }}
+          dns-name-label: frontend-${{ github.sha }}
           name: smart-campus-frontend
           image: ghcr.io/${{ github.repository }}/smart-campus-frontend:latest
           registry-login-server: ghcr.io
@@ -117,7 +117,7 @@ jobs:
         uses: azure/aci-deploy@v1
         with:
           resource-group: smart-campus-rg
-          dns-name-label: smart-campus-navigation-bot-${{ github.sha.substr(0, 8) }}
+          dns-name-label: navigationbot-${{ github.sha }}
           name: smart-campus-navigation-bot
           image: ghcr.io/${{ github.repository }}/smart-campus-navigation-bot:latest
           registry-login-server: ghcr.io
@@ -132,7 +132,7 @@ jobs:
         uses: azure/aci-deploy@v1
         with:
           resource-group: smart-campus-rg
-          dns-name-label: smart-campus-lost-and-found-${{ github.sha.substr(0, 8) }}
+          dns-name-label: lostfound-${{ github.sha }}
           name: smart-campus-lost-and-found
           image: ghcr.io/${{ github.repository }}/smart-campus-lost-and-found:latest
           registry-login-server: ghcr.io
