@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 
-# Ajouter des permissions pour écrire dans GHCR
 permissions:
   contents: read
   packages: write
@@ -17,27 +16,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Cloner le dépôt
       - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      # 2. Installer Docker et Docker Compose
       - name: 🔧 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 3. Exécuter les tests avec docker-compose.test.yml
+      - name: 🔧 Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
       - name: 🧪 Run tests
         run: |
           docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
-      # 4. Sauvegarder les logs en cas d'échec
       - name: 📜 Save logs on failure
         if: failure()
         run: |
           docker-compose -f docker-compose.test.yml logs > test-logs.txt
           cat test-logs.txt
 
-      # 5. Nettoyer après les tests
       - name: 🧹 Clean up
         if: always()
         run: |
@@ -49,15 +49,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Cloner le dépôt
       - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      # 2. Installer Docker Buildx
       - name: 🔧 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 3. Se connecter à GitHub Container Registry (GHCR)
       - name: 🔐 Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -65,7 +62,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
-      # 4. Générer les tags Docker
       - name: 🏷️ Generate Docker tags
         id: meta
         uses: docker/metadata-action@v5
@@ -78,9 +74,8 @@ jobs:
             type=ref,event=branch
             type=sha,prefix=
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=match,pattern=v(\d+\.\d+\.\d+),group=1 # Pour les tags Git comme v1.0.0
+            type=match,pattern=v(\d+\.\d+\.\d+),group=1
 
-      # 5. Construire et pousser l'image frontend
       - name: 🏗️ Build and push frontend image
         uses: docker/build-push-action@v5
         with:
@@ -92,7 +87,6 @@ jobs:
             ghcr.io/${{ github.repository }}/smart-campus-frontend:latest
           labels: ${{ steps.meta.outputs.labels }}
 
-      # 6. Construire et pousser l'image navigation-bot
       - name: 🏗️ Build and push navigation-bot image
         uses: docker/build-push-action@v5
         with:
@@ -104,7 +98,6 @@ jobs:
             ghcr.io/${{ github.repository }}/smart-campus-navigation-bot:latest
           labels: ${{ steps.meta.outputs.labels }}
 
-      # 7. Construire et pousser l'image lost-and-found
       - name: 🏗️ Build and push lost-and-found image
         uses: docker/build-push-action@v5
         with:
