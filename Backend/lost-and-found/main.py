@@ -96,7 +96,7 @@ async def upload_item(
             raise HTTPException(status_code=400, detail="Invalid contact email address")
 
     filename = f"{uuid.uuid4()}_{file.filename}"
-    file_path = f"/data/{filename}"
+    file_path = f"data/{filename}"
     print(f"Saving file to {file_path}")
     try:
         os.makedirs('data', exist_ok=True)
