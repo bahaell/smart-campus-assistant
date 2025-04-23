@@ -20,7 +20,7 @@ services:
   # Service pour navigation-bot
   navigation-bot:
     build:
-      context: ./backend/navigation-bot
+      context: ./Backend/navigation-bot
       dockerfile: Dockerfile
     ports:
       - "8001:8001"
@@ -41,7 +41,7 @@ services:
   # Service pour lost-and-found
   lost-and-found:
     build:
-      context: ./backend/lost-and-found
+      context: ./Backend/lost-and-found
       dockerfile: Dockerfile
     ports:
       - "8002:8002"
@@ -87,13 +87,13 @@ services:
   # Service pour exécuter les tests du backend (navigation-bot)
   navigation-bot-test:
     build:
-      context: ./backend/navigation-bot
+      context: ./Backend/navigation-bot
       dockerfile: Dockerfile.test  # Utiliser Dockerfile.test
     command: pytest
     environment:
       - CORS_ORIGINS=http://frontend:8080
     volumes:
-      - ./backend/navigation-bot:/app
+      - ./Backend/navigation-bot:/app
     depends_on:
       navigation-bot:
         condition: service_healthy
@@ -105,14 +105,14 @@ services:
   # Service pour exécuter les tests du backend (lost-and-found)
   lost-and-found-test:
     build:
-      context: ./backend/lost-and-found
+      context: ./Backend/lost-and-found
       dockerfile: Dockerfile.test  # Utiliser Dockerfile.test
     command: pytest
     environment:
       - MONGO_URI=mongodb://mongodb:27017/lost_and_found
       - CORS_ORIGINS=http://frontend:8080
     volumes:
-      - ./backend/lost-and-found:/app
+      - ./Backend/lost-and-found:/app
     depends_on:
       lost-and-found:
         condition: service_healthy
