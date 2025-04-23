@@ -43,9 +43,9 @@ jobs:
 
       - name: 🧪 Run tests
         run: |
-          export USER_UID=$(id -u)
-          export USER_GID=$(id -g)
-          docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
+          export MY_UID=$(id -u)
+          export MY_GID=$(id -g)
+          MY_UID=$MY_UID MY_GID=$MY_GID docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
 
       - name: 📜 Save logs on failure
