@@ -106,8 +106,8 @@ jobs:
       - name: 🏗️ Build and push navigation-bot image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend/navigation-bot
-          file: ./backend/navigation-bot/Dockerfile
+          context: ./Backend/navigation-bot
+          file: .Backend/navigation-bot/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/smart-campus-navigation-bot:${{ github.sha }}
@@ -117,8 +117,8 @@ jobs:
       - name: 🏗️ Build and push lost-and-found image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend/lost-and-found
-          file: ./backend/lost-and-found/Dockerfile
+          context: ./Backend/lost-and-found
+          file: ./Backend/lost-and-found/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/smart-campus-lost-and-found:${{ github.sha }}

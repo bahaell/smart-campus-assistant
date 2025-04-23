@@ -93,7 +93,7 @@ services:
     environment:
       - CORS_ORIGINS=http://frontend:8080
     volumes:
-      - ./Backend/navigation-bot:/app
+      - ./backend/navigation-bot:/app
     depends_on:
       navigation-bot:
         condition: service_healthy
@@ -112,7 +112,7 @@ services:
       - MONGO_URI=mongodb://mongodb:27017/lost_and_found
       - CORS_ORIGINS=http://frontend:8080
     volumes:
-      - ./Backend/lost-and-found:/app
+      - ./backend/lost-and-found:/app
     depends_on:
       lost-and-found:
         condition: service_healthy
