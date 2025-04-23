@@ -65,7 +65,7 @@ services:
   # Service pour le frontend
   frontend:
     build:
-      context: ./frontend
+      context: ./Frontend
       dockerfile: Dockerfile
     ports:
       - "8080:80"
@@ -124,7 +124,7 @@ services:
   # Service pour exécuter les tests du frontend
   frontend-test:
     build:
-      context: ./frontend
+      context: ./Frontend
       dockerfile: Dockerfile.test
     command: npm run test:ci
     environment:
