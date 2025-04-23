@@ -1,6 +1,12 @@
 version: '3.8'
 
 services:
+  app:
+    build: .
+    user: "${USER_UID}:${USER_GID}"  
+    volumes:
+      - ./test-data:/app/test-data
+      
   # Service MongoDB
   mongodb:
     image: mongo:latest
