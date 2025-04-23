@@ -43,10 +43,10 @@ jobs:
 
       - name: 🧪 Run tests
         run: |
-          # Passe l'UID et le GID pour éviter les problèmes de permissions
-          UID=$(id -u) GID=$(id -g) docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
-          docker-compose -f docker-compose.test.yml logs > test-logs.txt
-          cat test-logs.txt
+          export USER_UID=$(id -u)
+          export USER_GID=$(id -g)
+          docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
+
 
       - name: 📜 Save logs on failure
         if: failure()

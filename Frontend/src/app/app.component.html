@@ -1,0 +1,39 @@
+<div class="flex flex-col min-h-screen bg-gray-50">
+  <app-header></app-header>
+  <!-- Tab Navigation -->
+  <div class="container mx-auto px-4 py-6">
+    <div class="flex border-b border-gray-200 mb-6">
+      <a
+        routerLink="/"
+        routerLinkActive="border-blue-500 text-blue-600"
+        [routerLinkActiveOptions]="{exact: true}"
+        class="flex items-center px-4 py-3 border-b-2 font-medium text-sm transition-colors duration-200 ease-in-out"
+        [ngClass]="{'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': !isActive('/')}"
+      >
+        <svg class="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5v-4a2 2 0 012-2h10a2 2 0 012 2v4h-4m-6 0h6" />
+        </svg>
+        Campus Assistant
+      </a>
+      <a
+        routerLink="/lost-and-found"
+        routerLinkActive="border-blue-500 text-blue-600"
+        class="flex items-center px-4 py-3 border-b-2 font-medium text-sm transition-colors duration-200 ease-in-out"
+        [ngClass]="{'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': !isActive('/lost-and-found')}"
+      >
+        <svg class="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        Lost & Found
+      </a>
+    </div>
+  </div>
+
+  <!-- Content Area -->
+  <div class="flex-grow container mx-auto px-4">
+    <router-outlet></router-outlet>
+  </div>
+  <br><br>
+  <!-- Footer -->
+  <app-footer></app-footer>
+</div>

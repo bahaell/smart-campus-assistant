@@ -1,0 +1,58 @@
+<div class="bg-white rounded-lg shadow-md">
+  <!-- Header -->
+  <div class="p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-t-lg">
+    <h2 class="font-bold text-lg">Campus Assistant</h2>
+    <p class="text-sm text-blue-100">Ask me anything about the campus!</p>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="p-6">
+    <div class="h-96 overflow-y-auto mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50 chat-area">
+      <div *ngFor="let message of messages" class="mb-4">
+        <!-- Message de l'utilisateur -->
+        <div *ngIf="message.sender === 'user'" class="flex justify-end">
+          <div class="bg-blue-600 text-white rounded-lg p-3 max-w-xs">
+            {{ message.text }}
+          </div>
+        </div>
+        <!-- Message du bot -->
+        <div *ngIf="message.sender === 'bot'" class="flex justify-start">
+          <!-- Cas sans localisation -->
+          <div *ngIf="!message.location" class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs">
+            {{ message.text }}
+          </div>
+          <!-- Cas avec localisation -->
+          <div *ngIf="message.location" class="flex flex-col">
+            <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs">
+              {{ message.text }}
+            </div>
+            <div
+              *ngIf="message.mapId"
+              #mapContainer
+              [id]="message.mapId"
+              class="mt-2"
+              style="height: 200px; width: 300px; border: 1px solid #d1d5db; border-radius: 0.375rem;"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="flex items-center space-x-2">
+      <input
+        type="text"
+        [(ngModel)]="userMessage"
+        (keyup.enter)="sendMessage()"
+        placeholder="Type your question..."
+        class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      />
+      <button
+        (click)="sendMessage()"
+        class="bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700 transition-colors duration-200"
+      >
+        <lucide-icon name="send" class="h-5 w-5"></lucide-icon>
+      </button>
+    </div>
+  </div>
+</div>
