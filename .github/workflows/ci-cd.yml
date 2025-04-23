@@ -37,7 +37,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: 🏷️ Generate Docker tags
         id: meta
         uses: docker/metadata-action@v5
@@ -85,61 +85,3 @@ jobs:
             ghcr.io/${{ github.repository }}/smart-campus-lost-and-found:latest
           labels: ${{ steps.meta.outputs.labels }}
 
-  # ✅ Job pour déployer sur Azure Container Instances
-  deploy-to-aci:
-    needs: [docker-build-push]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 📅 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🔐 Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: 🚀 Deploy frontend to ACI
-        uses: azure/aci-deploy@v1
-        with:
-          resource-group: smart-campus-rg
-          dns-name-label: smart-campus-frontend-${{ github.sha }}
-          name: smart-campus-frontend
-          image: ghcr.io/${{ github.repository }}/smart-campus-frontend:latest
-          registry-login-server: ghcr.io
-          registry-username: ${{ github.actor }}
-          registry-password: ${{ secrets.GHCR_TOKEN }}
-          ports: 3000
-          cpu: 1
-          memory: 1.5
-          location: francecentral
-
-      - name: 🚀 Deploy navigation-bot to ACI
-        uses: azure/aci-deploy@v1
-        with:
-          resource-group: smart-campus-rg
-          dns-name-label: smart-campus-navigation-bot-${{ github.sha }}
-          name: smart-campus-navigation-bot
-          image: ghcr.io/${{ github.repository }}/smart-campus-navigation-bot:latest
-          registry-login-server: ghcr.io
-          registry-username: ${{ github.actor }}
-          registry-password: ${{ secrets.GHCR_TOKEN }}
-          ports: 8081
-          cpu: 1
-          memory: 1.5
-          location: francecentral
-
-      - name: 🚀 Deploy lost-and-found to ACI
-        uses: azure/aci-deploy@v1
-        with:
-          resource-group: smart-campus-rg
-          dns-name-label: smart-campus-lost-and-found-${{ github.sha }}
-          name: smart-campus-lost-and-found
-          image: ghcr.io/${{ github.repository }}/smart-campus-lost-and-found:latest
-          registry-login-server: ghcr.io
-          registry-username: ${{ github.actor }}
-          registry-password: ${{ secrets.GHCR_TOKEN }}
-          ports: 8082
-          cpu: 1
-          memory: 1.5
-          location: francecentral
