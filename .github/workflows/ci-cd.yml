@@ -30,7 +30,7 @@ jobs:
 
       - name: 🧪 Run tests
         run: |
-          docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit --no-ansi
+          docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit 
           docker-compose -f docker-compose.test.yml logs > test-logs.txt
           cat test-logs.txt
 
