@@ -16,11 +16,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout code
+      - name: 📅 Checkout code
         uses: actions/checkout@v4
 
       - name: 🔧 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: 📝 Clean up Docker to free space
+        run: |
+          docker system prune -af
+          docker builder prune -af
 
       - name: 🔧 Install Docker Compose
         run: |
@@ -30,16 +35,14 @@ jobs:
 
       - name: 🔍 Debug user and permissions
         run: |
-          id  # Affiche l'utilisateur et ses groupes
-          ls -ld .  # Affiche les permissions du répertoire de travail
-          # Ajoutez d'autres répertoires si nécessaire (ex: ls -ld ./test-data)
+          id
+          ls -ld .
 
       - name: 🔧 Fix permissions for test directories
         run: |
-          # Remplacez "test-data" par les répertoires utilisés dans docker-compose.test.yml
-          mkdir -p test-data  # Crée le répertoire si nécessaire
-          chmod -R 755 test-data  # Ajuste les permissions
-          chown -R $(id -u):$(id -g) test-data  # Aligne avec l'UID/GID de l'utilisateur runner
+          mkdir -p test-data
+          chmod -R 755 test-data
+          chown -R $(id -u):$(id -g) test-data
 
       - name: 🧪 Run tests
         run: |
@@ -47,14 +50,13 @@ jobs:
           export MY_GID=$(id -g)
           MY_UID=$MY_UID MY_GID=$MY_GID docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
-
       - name: 📜 Save logs on failure
         if: failure()
         run: |
           docker-compose -f docker-compose.test.yml logs > test-logs.txt
           cat test-logs.txt
 
-      - name: 🧹 Clean up
+      - name: 🚹 Clean up
         if: always()
         run: |
           docker-compose -f docker-compose.test.yml down -v --rmi local
@@ -65,11 +67,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout code
+      - name: 📅 Checkout code
         uses: actions/checkout@v4
 
       - name: 🔧 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: 🐐 Clean up Docker to free space
+        run: |
+          docker system prune -af
+          docker builder prune -af
 
       - name: 🔐 Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -106,8 +113,8 @@ jobs:
       - name: 🏗️ Build and push navigation-bot image
         uses: docker/build-push-action@v5
         with:
-          context: ./Backend/navigation-bot
-          file: .Backend/navigation-bot/Dockerfile
+          context: ./backend/navigation-bot
+          file: ./backend/navigation-bot/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/smart-campus-navigation-bot:${{ github.sha }}
@@ -117,8 +124,8 @@ jobs:
       - name: 🏗️ Build and push lost-and-found image
         uses: docker/build-push-action@v5
         with:
-          context: ./Backend/lost-and-found
-          file: ./Backend/lost-and-found/Dockerfile
+          context: ./backend/lost-and-found
+          file: ./backend/lost-and-found/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/smart-campus-lost-and-found:${{ github.sha }}
