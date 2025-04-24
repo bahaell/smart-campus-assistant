@@ -37,6 +37,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
+      - name: 🔐 Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: 🏷️ Generate Docker tags
         id: meta
         uses: docker/metadata-action@v5
@@ -84,6 +90,15 @@ jobs:
             ghcr.io/${{ github.repository }}/smart-campus-lost-and-found:latest
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: 📦 Pull and push MongoDB image to GHCR
+        run: |
+          echo "Pulling mongo:latest from Docker Hub..."
+          docker pull mongo:latest
+          echo "Tagging mongo:latest for GHCR..."
+          docker tag mongo:latest ghcr.io/${{ github.repository_owner }}/mongo:latest
+          echo "Pushing mongo:latest to GHCR..."
+          docker push ghcr.io/${{ github.repository_owner }}/mongo:latest
+
   deploy-to-aci:
     needs: [docker-build-push]
     runs-on: ubuntu-latest
@@ -96,17 +111,31 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: 🔐 Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
       - name: 🚀 Deploy MongoDB to ACI
         uses: azure/aci-deploy@v1
         with:
           resource-group: smart-campus-rg
           dns-name-label: mongodb-static
           name: smart-campus-mongodb
-          image: mongo:latest
+          image: ghcr.io/${{ github.repository_owner }}/mongo:latest
+          registry-login-server: ghcr.io
+          registry-username: ${{ github.actor }}
+          registry-password: ${{ secrets.GHCR_TOKEN }}
           ports: 27017
           cpu: 1
           memory: 1.5
           location: francecentral
+          ip-address: Public
+          os-type: Linux
+          protocol: TCP
+          restart-policy: Always
 
       - name: ⏳ Wait for MongoDB to be ready
         run: |
@@ -135,6 +164,10 @@ jobs:
           memory: 1.5
           location: francecentral
           environment-variables: MONGO_URI=mongodb://mongodb-static.francecentral.azurecontainer.io:27017
+          ip-address: Public
+          os-type: Linux
+          protocol: TCP
+          restart-policy: Always
 
       - name: 🚀 Deploy lost-and-found to ACI
         uses: azure/aci-deploy@v1
@@ -151,6 +184,10 @@ jobs:
           memory: 1.5
           location: francecentral
           environment-variables: MONGO_URI=mongodb://mongodb-static.francecentral.azurecontainer.io:27017
+          ip-address: Public
+          os-type: Linux
+          protocol: TCP
+          restart-policy: Always
 
       - name: 🚀 Deploy frontend to ACI
         uses: azure/aci-deploy@v1
@@ -169,3 +206,7 @@ jobs:
           environment-variables: |
             NAVIGATION_BOT_API_URL=http://navigationbot-static.francecentral.azurecontainer.io:8001
             LOST_AND_FOUND_API_URL=http://lostfound-static.francecentral.azurecontainer.io:8002
+          ip-address: Public
+          os-type: Linux
+          protocol: TCP
+          restart-policy: Always
