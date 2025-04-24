@@ -7,9 +7,12 @@ import { AppComponent } from './app.component';
 import { NavigationBotComponent } from './components/navigation-bot/navigation-bot.component';
 import { LostAndFoundComponent } from './components/lost-and-found/lost-and-found.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { LucideAngularModule, Image, MapPin, User, Calendar, ChevronUp, ChevronDown, Lightbulb, Send } from 'lucide-angular';
+import { LucideAngularModule, Image, MapPin, User, Calendar, ChevronUp, ChevronDown, Lightbulb, Send, Mail, Phone, Search, Bot } from 'lucide-angular';
 import { HeaderComponent } from './components/header/header.component';
-import image from 'lucide-angular/icons/image';
+import { ServicesComponent } from './components/services/services.component';
+import { AboutComponent } from './components/about/about.component';
+import search from 'lucide-angular/icons/search';
+import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
 
 @NgModule({
   declarations: [
@@ -17,14 +20,17 @@ import image from 'lucide-angular/icons/image';
     NavigationBotComponent,
     LostAndFoundComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    ServicesComponent,
+    AboutComponent,
+    ComingSoonComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    LucideAngularModule.pick({ Send, MapPin, User, Calendar, ChevronDown, ChevronUp, Lightbulb, Image })
+    LucideAngularModule.pick({Search, Bot , Mail, Phone , Send, MapPin, User, Calendar, ChevronDown, ChevronUp, Lightbulb, Image })
   ],
   providers: [],
   bootstrap: [AppComponent]

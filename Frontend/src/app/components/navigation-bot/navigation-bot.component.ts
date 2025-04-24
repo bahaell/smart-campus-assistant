@@ -23,7 +23,7 @@ export class NavigationBotComponent implements AfterViewInit, OnInit { // Add On
     // Ajouter un message de bienvenue en français lors de l'initialisation
     this.messages.push({
       sender: 'bot',
-      text: 'Bonjour ! Je suis votre assistant campus. Comment puis-je vous aider aujourd’hui ?'
+      text: "Hello! I'm your campus assistant. How can I help you today ?"
     });
   }
 
@@ -35,25 +35,21 @@ export class NavigationBotComponent implements AfterViewInit, OnInit { // Add On
   }
 
   private initMaps() {
-    // Parcourir tous les messages avec un mapId et initialiser les cartes correspondantes
     this.messages.forEach((message, index) => {
       if (message.mapId && message.location) {
         const mapId = message.mapId;
         const mapElement = document.getElementById(mapId);
 
         if (mapElement && !this.maps[mapId]) {
-          // Initialiser la carte Leaflet avec les options améliorées
           this.maps[mapId] = L.map(mapElement, {
             zoomControl: true, // Ajout du contrôle de zoom
             scrollWheelZoom: false // Désactivation du zoom par molette
           }).setView([message.location.lat, message.location.lng], 15);
 
-          // Ajouter la couche OpenStreetMap
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           }).addTo(this.maps[mapId]);
 
-          // Ajouter un marqueur avec une icône personnalisée
           this.markers[mapId] = L.marker([message.location.lat, message.location.lng], {
             icon: L.icon({
               iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -77,16 +73,13 @@ export class NavigationBotComponent implements AfterViewInit, OnInit { // Add On
   sendMessage() {
     if (!this.userMessage.trim()) return;
 
-    // Ajouter le message de l'utilisateur au chat
     this.messages.push({ sender: 'user', text: this.userMessage });
 
-    // Envoyer la requête au backend
     this.http.post<{ answer: string; source: any }>(`${this.apiUrl}/ask`, { query: this.userMessage }).subscribe({
       next: (response) => {
         console.log(this.apiUrl);
         console.log('Response from backend:', response);
 
-        // Si la réponse contient des coordonnées, ajouter un identifiant unique pour la carte
         if (response.source && response.source.lat && response.source.lng) {
           const mapId = `map-${this.messages.length}`; // Identifiant unique pour chaque carte
           this.messages.push({
@@ -103,7 +96,6 @@ export class NavigationBotComponent implements AfterViewInit, OnInit { // Add On
           this.messages.push({ sender: 'bot', text: response.answer });
         }
 
-        // Attendre que le DOM soit mis à jour avant d'initialiser les cartes
         setTimeout(() => {
           this.initMaps();
         }, 0);
@@ -114,7 +106,6 @@ export class NavigationBotComponent implements AfterViewInit, OnInit { // Add On
       }
     });
 
-    // Vider l'input
     this.userMessage = '';
   }
 }

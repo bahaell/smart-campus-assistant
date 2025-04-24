@@ -1,0 +1,110 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl text-white p-8 mb-12">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="text-3xl font-bold mb-4">About Smart Campus</h1>
+      <p class="text-xl mb-6">Transforming campus navigation and services with intelligent technology</p>
+      <p class="text-blue-100">
+        Smart Campus was created to solve the common challenges students and visitors face when navigating
+        large university grounds. Using artificial intelligence and interactive maps, we're making campus
+        life simpler and more connected.
+      </p>
+    </div>
+  </div>
+
+  <!-- Mission Section -->
+  <div class="mb-16">
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Our Mission</h2>
+      <div class="w-24 h-1 bg-blue-500 mx-auto mt-2"></div>
+    </div>
+    <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+          <img
+            src="https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            alt="University Campus"
+            class="rounded-lg shadow-md w-full h-auto"
+          />
+        </div>
+        <div class="md:w-1/2">
+          <h3 class="text-xl font-semibold mb-4 text-gray-800">Creating a Connected Campus Experience</h3>
+          <p class="text-gray-600 mb-4">
+            Our mission is to enhance campus life by providing intuitive digital solutions that connect
+            students, faculty, and visitors with the resources they need. We believe technology should
+            simplify navigation, streamline services, and create a more accessible campus environment.
+          </p>
+          <p class="text-gray-600">
+            Through our suite of Smart Campus tools, we're building a community where information is easily
+            accessible, lost items find their way home, and no one gets lost on their way to class or an important event.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="mb-16">
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Key Features</h2>
+      <div class="w-24 h-1 bg-blue-500 mx-auto mt-2"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let feature of features" class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold mb-2 text-gray-800">{{ feature.name }}</h3>
+        <p class="text-gray-600">{{ feature.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team Section -->
+  <div class="mb-16">
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Our Team</h2>
+      <div class="w-24 h-1 bg-blue-500 mx-auto mt-2"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div *ngFor="let member of teamMembers" class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img src="assets/images/baha.png" [alt]="member.name" class="w-full h-48 object-cover object-center" />
+        <div class="p-6">
+          <h3 class="text-lg font-semibold mb-1 text-gray-800">{{ member.name }}</h3>
+          <p class="text-blue-600 text-sm mb-3">{{ member.role }}</p>
+          <p class="text-gray-600 text-sm">{{ member.bio }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div>
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold text-gray-800">Contact Us</h2>
+      <div class="w-24 h-1 bg-blue-500 mx-auto mt-2"></div>
+    </div>
+    <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <lucide-icon name="mail" class="h-8 w-8 text-blue-600"></lucide-icon>
+          </div>
+          <h3 class="text-lg font-semibold mb-2 text-gray-800">Email</h3>
+          <p class="text-gray-600">Bahaaellouze@gmail.com</p>
+        </div>
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <lucide-icon name="phone" class="h-8 w-8 text-blue-600"></lucide-icon>
+          </div>
+          <h3 class="text-lg font-semibold mb-2 text-gray-800">Phone</h3>
+          <p class="text-gray-600">+216 53 980 755</p>
+        </div>
+        <div class="text-center p-4">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <lucide-icon name="map-pin" class="h-8 w-8 text-blue-600"></lucide-icon>
+          </div>
+          <h3 class="text-lg font-semibold mb-2 text-gray-800">Location</h3>
+          <p class="text-gray-600">FST, faculty of sciences of tunis</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+.hover\:text-blue-300:hover {
+  color: rgb(147, 197, 253);
+  transition: color 0.2s ease;
+}
