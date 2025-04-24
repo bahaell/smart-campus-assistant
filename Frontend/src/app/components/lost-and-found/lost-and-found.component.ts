@@ -42,7 +42,7 @@ export class LostAndFoundComponent implements OnInit {
           return {
             ...item,
             expanded: false,
-            image_path: item.image_path ? `http://localhost:8002/${item.image_path}` : null
+            image_path: item.image_path ? `${this.apiUrl}/${item.image_path}` : null
           };
         });
         this.applyFilter();
