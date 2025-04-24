@@ -26,13 +26,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # MongoDB
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://mongodb:27017/")
 try:
-    client = MongoClient("mongodb://mongodb:27017/", serverSelectionTimeoutMS=5000)
+    client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
     client.server_info()
-    print("Successfully connected to MongoDB")
+    print(f"Successfully connected to MongoDB at {MONGO_URI}")
 except (ConnectionFailure, ServerSelectionTimeoutError) as e:
-    print(f"Failed to connect to MongoDB: {e}")
+    print(f"Failed to connect to MongoDB at {MONGO_URI}: {e}")
     raise Exception("Cannot connect to MongoDB")
+
 db = client["lost_and_found"]
 collection = db["items"]
 

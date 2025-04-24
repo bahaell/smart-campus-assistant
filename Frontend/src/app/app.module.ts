@@ -9,6 +9,7 @@ import { LostAndFoundComponent } from './components/lost-and-found/lost-and-foun
 import { FooterComponent } from './components/footer/footer.component';
 import { LucideAngularModule, Image, MapPin, User, Calendar, ChevronUp, ChevronDown, Lightbulb, Send } from 'lucide-angular';
 import { HeaderComponent } from './components/header/header.component';
+import image from 'lucide-angular/icons/image';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { HeaderComponent } from './components/header/header.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    LucideAngularModule.pick({ Send, MapPin, User, Calendar, ChevronDown, ChevronUp, Lightbulb })
+    LucideAngularModule.pick({ Send, MapPin, User, Calendar, ChevronDown, ChevronUp, Lightbulb, Image })
   ],
   providers: [],
   bootstrap: [AppComponent]
