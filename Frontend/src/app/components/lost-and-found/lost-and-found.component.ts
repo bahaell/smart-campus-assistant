@@ -89,4 +89,16 @@ export class LostAndFoundComponent implements OnInit {
       }
     });
   }
+  isImageModalOpen = false;
+modalImagePath: string = '';
+
+openImageModal(imagePath: string) {
+  this.modalImagePath = imagePath;
+  this.isImageModalOpen = true;
+}
+
+closeImageModal() {
+  this.isImageModalOpen = false;
+}
+
 }

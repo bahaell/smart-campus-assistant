@@ -1,34 +1,34 @@
 [
   {
-    "title": "Entrée principale",
+    "title": "Main Entrance",
     "location": {
       "lat": 36.83385543385891,
       "lng": 10.147823228591896
     }
   },
   {
-    "title": "Bloc Prepa",
+    "title": "Prepa Block",
     "location": {
       "lat": 36.8344411,
       "lng": 10.1456052
     }
   },
   {
-    "title": "Bloc TP Chimie",
+    "title": "Chemistry Lab Block",
     "location": {
       "lat": 36.8334846,
       "lng": 10.1444611
     }
   },
   {
-    "title": "Bloc Recherche Chimie",
+    "title": "Chemistry Research Block",
     "location": {
       "lat": 36.8335406,
       "lng": 10.1436971
     }
   },
   {
-    "title": "Département de l'informatique",
+    "title": "Computer Science Department",
     "location": {
       "lat": 36.8353591,
       "lng": 10.1444015
@@ -56,31 +56,73 @@
     }
   },
   {
-    "title": "Département de Biologie",
+    "title": "Biology Department",
     "location": {
-      "lat": 36.8328946,
-      "lng": 10.1474431
+      "lat": 36.83295412757762,
+      "lng": 10.14745083760975
     }
   },
   {
-    "title": "département de mathématiques",
+    "title": "Mathematics Department",
     "location": {
       "lat": 36.834392,
       "lng": 10.1466997
     }
   },
   {
-    "title": "salle de sport",
+    "title": "Gym",
     "location": {
       "lat": 36.8352861286451,
       "lng": 10.145249287520159
     }
   },
   {
-    "title": "moussala",
+    "title": "Prayer Room",
     "location": {
       "lat": 36.83446041348908,
       "lng": 10.144803108689906
+    }
+  },
+  {
+    "title": "FST Club Space",
+    "location": {
+      "lat": 36.833676363580096,
+      "lng": 10.147600977835983
+    }
+  },
+  {
+    "title": "Geology Department",
+    "location": {
+      "lat": 36.83324700555001,
+      "lng": 10.14667829797104
+    }
+  },
+  {
+    "title": "Red Square",
+    "location": {
+      "lat": 36.834182687019705,
+      "lng": 10.14596600504029
+    }
+  },
+  {
+    "title": "Optima Junior Enterprise",
+    "location": {
+      "lat": 36.83326462221136,
+      "lng": 10.144985755010032
+    }
+  },
+  {
+    "title": "SCT",
+    "location": {
+      "lat": 36.833571511170454,
+      "lng": 10.144854938338316
+    }
+  },
+  {
+    "title": "Electronics Engineering Club FST",
+    "location": {
+      "lat": 36.83338524402724,
+      "lng": 10.146058727258023
     }
   }
 ]

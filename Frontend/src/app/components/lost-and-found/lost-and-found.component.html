@@ -121,8 +121,17 @@
               <span>{{item.contactInfo}}</span>
             </div>
             <div *ngIf="item.image_path" class="mt-3">
-              <img [src]="item.image_path" alt="Item Image" class="w-full h-48 object-cover rounded-md">
+              <img
+                [src]="item.image_path"
+                alt="Item Image"
+                class="w-full h-48 object-cover rounded-md cursor-pointer"
+                (click)="openImageModal(item.image_path)">
             </div>
+            <div *ngIf="isImageModalOpen" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+              <img [src]="modalImagePath" class="max-w-full max-h-full rounded-lg shadow-lg">
+              <button class="absolute top-4 right-4 text-white text-2xl" (click)="closeImageModal()">✖</button>
+            </div>
+
             <div *ngIf="item.matches.length > 0" class="mt-4 border-t border-gray-100 pt-3">
               <button (click)="item.expanded = !item.expanded"
                 class="flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200">
@@ -139,7 +148,7 @@
                     </span>
                     <span class="text-xs text-gray-500">{{match.timestamp | date:'shortDate'}}</span>
                   </div>
-                  <p class="text-sm text-gray-800">{{match.description}}</p>
+                  <p class="text-sm text-gray-800">{{match.description}} <span *ngIf="match.finder_email"> -- </span>  {{match.finder_email}}</p>
                 </div>
               </div>
             </div>
