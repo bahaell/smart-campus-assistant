@@ -108,7 +108,7 @@ jobs:
           registry-login-server: ghcr.io
           registry-username: ${{ github.actor }}
           registry-password: ${{ secrets.GHCR_TOKEN }}
-          ports: 80
+          ports: 8080
           cpu: 1
           memory: 1.5
           location: francecentral
@@ -123,7 +123,7 @@ jobs:
           registry-login-server: ghcr.io
           registry-username: ${{ github.actor }}
           registry-password: ${{ secrets.GHCR_TOKEN }}
-          ports: 8081
+          ports: 8001
           cpu: 1
           memory: 1.5
           location: francecentral
@@ -138,7 +138,7 @@ jobs:
           registry-login-server: ghcr.io
           registry-username: ${{ github.actor }}
           registry-password: ${{ secrets.GHCR_TOKEN }}
-          ports: 8082
+          ports: 8002
           cpu: 1
           memory: 1.5
           location: francecentral
