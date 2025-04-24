@@ -20,7 +20,7 @@ http {
         }
 
         location /api/navigation-bot/ {
-            proxy_pass http://navigationbot-static.francecentral.azurecontainer.io:8001/;
+            proxy_pass http://navigation-bot:8001/;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -29,7 +29,7 @@ http {
         }
 
         location /api/lost-and-found/ {
-            proxy_pass http://lostfound-static.francecentral.azurecontainer.io:8002/;
+            proxy_pass http://lost-and-found:8002/;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -38,7 +38,7 @@ http {
         }
 
         location /lost-and-found/data/ {
-            proxy_pass http://lostfound-static.francecentral.azurecontainer.io:8002/data/;
+            proxy_pass http://lost-and-found:8002/data/;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;

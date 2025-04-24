@@ -1,31 +1,26 @@
-# Étape 1 : Build Angular
+# Étape 1 : Construire l'application Angular
 FROM node:20 AS build
-
 WORKDIR /app
-
-# Copie des fichiers package pour l'installation des dépendances
-COPY package.json package-lock.json ./
-
-# Mise à jour de npm + configuration proxy (si nécessaire)
-# ⚠️ Ne définis les proxies que si tu les utilises, sinon ça peut casser le build
-RUN npm install -g npm@11.3.0 && \
-    npm install --fetch-timeout=600000
-
-# Copie du reste du projet
+COPY package*.json ./
+RUN npm install
 COPY . .
+RUN npm run build --prod
 
-# Build de l'app Angular
-RUN npm run build --configuration=production
-
-# Étape 2 : Serveur NGINX
+# Étape 2 : Configurer NGINX pour servir l'application
 FROM nginx:1.25
+COPY --from=build /app/dist/smart-campus-frontend /usr/share/nginx/html
 
-# Copie des fichiers Angular buildés vers nginx
-COPY --from=build /app/dist/frontend /usr/share/nginx/html
+# Définir une variable d'environnement par défaut
+ARG ENV=prod
+COPY nginx.conf /etc/nginx/nginx.conf.prod
+COPY nginx.conf.local /etc/nginx/nginx.conf.local
 
-# Copie du fichier nginx personnalisé (doit exister dans ton projet)
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copier le fichier NGINX approprié en fonction de l'environnement
+RUN if [ "$ENV" = "local" ]; then \
+    cp /etc/nginx/nginx.conf.local /etc/nginx/nginx.conf; \
+    else \
+    cp /etc/nginx/nginx.conf.prod /etc/nginx/nginx.conf; \
+    fi
 
 EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
+CMD ["nginx", "-g", "daemon off;"]

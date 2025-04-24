@@ -37,7 +37,10 @@ services:
       - app-network
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        - ENV=local
     ports:
       - "8080:80"
     environment:
