@@ -8,34 +8,6 @@ navigation-bot: NLP processing service to answer navigation queries.
 lost-and-found: Service to manage lost and found items, with image recognition via YOLOv5.
 mongodb: MongoDB database to store lost and found data.
 
-Project Structure
-smart-campus-assistant/
-├── frontend/
-│   ├── Dockerfile
-│   ├── nginx.conf         # NGINX configuration for deployment (Azure)
-│   ├── nginx.conf.local   # NGINX configuration for local execution
-│   └── src/               # Angular code
-├── backend/
-│   ├── navigation-bot/
-│   │   ├── Dockerfile
-│   │   ├── main.py
-│   │   ├── embeddings.py  # Script to generate FAISS embeddings
-│   │   ├── requirements.txt
-│   │   └── tests/
-│   │       └── test_main.py
-│   ├── lost-and-found/
-│   │   ├── Dockerfile
-│   │   ├── main.py
-│   │   ├── image_recognition.py
-│   │   ├── requirements.txt
-│   │   └── tests/
-│   │       └── test_main.py
-├── .github/
-│   └── workflows/
-│       ├── ci-cd.yml      # Combined CI/CD pipeline for testing, building, and deployment
-├── docker-compose.yml
-└── README.md
-
 Tech Stack
 AI/NLP (Offline & Self-hosted)
 
